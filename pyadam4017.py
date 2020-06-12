@@ -9,7 +9,8 @@ dev  = '/dev/ttyUSB*'
 scan = glob.glob(dev)
 if (len(scan) == 0):
     print ('Unable to find any ports scanning for ' + dev)
-    os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")
+    # os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")
+    os.system("sudo sh -c 'echo 1 > /sys/class/leds/orangepi:red:status/brightness'")
     exit(1)
 else:
     print('Use port: ' + scan[0])
@@ -30,6 +31,7 @@ try:
         file_csv = open(filename, 'a')
         i = 1
         while i <= 60:
+            os.system("sudo sh -c 'echo 1 > /sys/class/leds/orangepi:green:pwr/brightness'")
             time_current = time.strftime("%H:%M:%S", time.gmtime())
             ser.write(b'#01\r')     
             time.sleep(0.08)
@@ -43,12 +45,16 @@ try:
             ';' + line2 [22:29] + ';' + line2[29:36] + ';' + line2[36:43] + ';' + line2[43:50] + \
             ';' + line2[50:57] + '\n'
             file_csv.write(full_line)
-            time.sleep(0.84)
+            time.sleep(0.42)
+            os.system("sudo sh -c 'echo 0 > /sys/class/leds/orangepi:green:pwr/brightness'")
+            time.sleep(0.42)
             i += 1
         file_csv.close()
 except OSError:
-    os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")
+    os.system("sudo sh -c 'echo 1 > /sys/class/leds/orangepi:red:status/brightness'")
+    # os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")
 except UnicodeError:
-    os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")
-    time.sleep(0.4)
-    os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")   
+    os.system("sudo sh -c 'echo 1 > /sys/class/leds/orangepi:red:status/brightness'")
+    # os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")
+    # time.sleep(0.4)
+    # os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")   
