@@ -4,6 +4,9 @@ import serial
 import glob
 import os
 
+# Red LED off
+os.system("sudo sh -c 'echo 0 > /sys/class/leds/orangepi:red:status/brightness'")
+
 # Scan for /dev/ttyUSB* port and use first available
 dev  = '/dev/ttyUSB*'
 scan = glob.glob(dev)
