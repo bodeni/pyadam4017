@@ -4,14 +4,16 @@ import serial
 import glob
 import os
 
-# Red LED off
+
+# Orange Pi Red LED Off.
 os.system("sudo sh -c 'echo 0 > /sys/class/leds/orangepi:red:status/brightness'")
 
-# Scan for /dev/ttyUSB* port and use first available
+# Scan for /dev/ttyUSB* port and use first available.
 dev  = '/dev/ttyUSB*'
 scan = glob.glob(dev)
 if (len(scan) == 0):
     print ('Unable to find any ports scanning for ' + dev)
+    # Uncomment next string for warning sound on Linux machine.
     # os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")
     os.system("sudo sh -c 'echo 1 > /sys/class/leds/orangepi:red:status/brightness'")
     exit(1)
@@ -55,9 +57,11 @@ try:
         file_csv.close()
 except OSError:
     os.system("sudo sh -c 'echo 1 > /sys/class/leds/orangepi:red:status/brightness'")
+    # Uncomment next string for warning sound on Linux machine.
     # os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")
 except UnicodeError:
     os.system("sudo sh -c 'echo 1 > /sys/class/leds/orangepi:red:status/brightness'")
+    # Uncomment next strings for warning sound on Linux machine.
     # os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")
     # time.sleep(0.4)
     # os.system(" ( speaker-test -t sine -f 1000 )& pid=$! ; sleep 0.2s ; kill -9 $pid")   
